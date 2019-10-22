@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<title>Test JS</title>
+<body>
+
+<h4>1)</h4>
+<button id="mybutton">My Button</button>
+
+
+<br><br><br><br>
+
+
+<h4>2)</h4>
+<span id="str2">My name is ...</span>
+<button id="replace_button" data="Anhika Desta Permana">Replace!</button>
+
+
+<br><br><br><br>
+
+
+<h4>3)</h4>
+X = 1 =>
+<span id="str3"></span>
+
+
+<br><br><br><br>
+
+
+<h4>4)</h4>
+<form action="#"> 
+ <table cellspacing="2" cellpadding="5" style="border: 1px #999 solid; padding: 10px;"> 
+    <tr> 
+       <td><input type="text" id="fullname" placeholder="Full Name" required style="padding: 5px 10px; width: 90%;" /></td>
+    </tr> 
+    <tr> 
+       <td><input type="email" id="email" placeholder="Email Address" required style="padding: 5px 10px; width: 90%;" /></td> 
+    </tr> 
+    <tr> 
+       <td><input type="text" id="phone" placeholder="Phone Number" required 
+       onkeyup="this.value=this.value.replace(/[^\d]/,'')" style="padding: 5px 10px; width: 90%;" /></td> 
+    </tr> 
+    <tr> 
+       <td> 
+        	<input type="radio" name="gender" value="male" required> Male
+			<input type="radio" name="gender" value="female"> Female
+       </td> 
+    </tr>
+    <tr>
+       <td>
+       		<input type="checkbox" name="terms" value="1" required> I agree with the Terms & Condtions
+       </td>
+    </tr>
+    <tr> 
+       <td><input type="submit" value="Submit" /></td> 
+    </tr> 
+ </table> 
+</form> 
+
+
+<br><br><br><br>
+
+
+<h4>5)</h4>
+<span id="str5"><pre></pre></span>
+
+
+<script>
+//1
+let hello_world = () => {
+  alert('Hello World!')
+}
+//trigger untuk memanggil fungsi arrow hello_world
+document.getElementById('mybutton').addEventListener('click', hello_world)
+
+
+//2
+let replace_str = () => {
+	//(a)
+	let str_rep = document.getElementById('str2').innerText
+	document.getElementById('str2').innerHTML = str_rep.split('...').join(document.getElementById('replace_button').getAttribute('data'))
+	//(b)
+	document.getElementById('replace_button').dataset.id = 'username'
+}
+//trigger untuk memanggil fungsi arrow replace_str
+document.getElementById('replace_button').addEventListener('click', replace_str)
+
+
+//3
+//asynchronous dengan promise
+let start = 1
+let j = 5
+let wait = (ms) => new Promise((resolve, reject) => setTimeout(resolve, ms))
+for(let i = 0; i < j; i++){
+  //cetak dengan wait setiap 5 detik
+  wait(i * 5000).then(() => document.getElementById('str3').innerHTML += Math.pow(2, start++ * 1)+', ') //--> 2 pangkat - kelipatan looping
+}
+
+
+//4
+let form  = document.getElementsByTagName('form')[0]
+let fullname = document.getElementById('fullname')
+let email = document.getElementById('email')
+let phone = document.getElementById('phone')
+let terms = document.getElementById('terms')
+
+email.addEventListener('input', function(event) {
+	
+	if(email.validity.valid){
+		alert('Email not valid')
+	}
+
+}, false)
+
+form.addEventListener('submit', function(event) {
+	
+	if(fullname.value == ''){
+		alert('Fullname cannot empty')
+		fullname.focus() //--> set focus
+		event.preventDefault() //--> stop event
+		return false
+	}
+	if(email.value == ''){
+		alert('Email cannot empty')
+		email.focus() //--> set focus
+		event.preventDefault() //--> stop event
+		return false
+	}
+	if(!email.validity.valid){
+		email.focus() //--> set focus
+		event.preventDefault() //--> stop event
+		return false
+	}
+	if(phone.value == ''){
+		alert('Phone cannot empty')
+		phone.focus() //--> set focus
+		event.preventDefault() //--> stop event
+		return false
+	}
+	if(!terms.checked){
+		alert('Terms must checked')
+		terms.focus() //--> set focus
+		event.preventDefault() //--> stop event
+		return false
+	}
+
+	return true
+
+}, false)
+
+
+//5
+let print_odd_even = (num) => {
+  for (let i = 1; i < num; i++) {
+    if(i % 2 !== 0){
+      	document.getElementById('str5').innerText  += '<div id="section-'+i+'" class="odd">Text '+i+'</div>\n'
+    }else{
+    	document.getElementById('str5').innerText  += '<div id="section-'+i+'" class="even">Text '+i+'</div>\n'
+    }
+  }
+}
+//set value number 6, karena index dimulai dari 1 bukan 0
+print_odd_even(6)
+</script>
+
+</body>
+</html>
